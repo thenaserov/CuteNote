@@ -54,16 +54,17 @@
      <string>Print</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuAbout">
+   <widget class="QMenu" name="menuActions">
     <property name="title">
-     <string>About</string>
+     <string>Actions</string>
     </property>
-    <addaction name="actionTheNaserov"/>
+    <addaction name="actionundo"/>
+    <addaction name="actionredo"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuTheme"/>
    <addaction name="menuPrint"/>
-   <addaction name="menuAbout"/>
+   <addaction name="menuActions"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave">
@@ -84,6 +85,16 @@
   <action name="actionTheNaserov">
    <property name="text">
     <string>TheNaserov</string>
+   </property>
+  </action>
+  <action name="actionundo">
+   <property name="text">
+    <string>undo</string>
+   </property>
+  </action>
+  <action name="actionredo">
+   <property name="text">
+    <string>redo</string>
    </property>
   </action>
  </widget>

@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveSlot()));
     connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(setDark()));
     connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(setLight()));
+    ui->plainTextEdit->setUndoRedoEnabled(1);
+    connect(ui->actionundo, SIGNAL(triggered()), ui->plainTextEdit, SLOT(undo()));
+    connect(ui->actionredo, SIGNAL(triggered()), ui->plainTextEdit, SLOT(redo()));
 }
 
 MainWindow::~MainWindow()
@@ -30,11 +33,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 bool MainWindow::Save(QKeyEvent *event)
 {
-    if (event->modifiers() == Qt::ControlModifier)
+    if (event->modifiers() == Qt::ControlModifier | event->modifiers() == Qt::KeypadModifier)
     {
         switch (event->key())
         {
-        case Qt::Key_S:
+        case Qt::Key_S:{
             QMessageBox msgBox;
              msgBox.setText("The document has been modified.");
              msgBox.setInformativeText("Do you want to save your changes?");
@@ -77,6 +80,13 @@ bool MainWindow::Save(QKeyEvent *event)
                    }
              }
             break;
+        }
+        case Qt::Key_Plus:{
+            ui->plainTextEdit->zoomIn();
+        }
+        case Qt::Key_Minus:{
+            ui->plainTextEdit->zoomOut();
+        }
         }
     }
 }
