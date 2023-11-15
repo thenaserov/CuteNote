@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QShortcut>
+#include <QDebug>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QMessageBox>
+#include <QTextStream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,11 +25,20 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    bool Save(QKeyEvent *event);
+    QString currentFile { "" };
+    QShortcut *shortcutPlus = nullptr;
+    QShortcut *shortcutMinus = nullptr;
+    QKeyEvent *event = nullptr;
 
 public slots:
-    void saveSlot();
+    void save();
+    void open();
+    void newDoc();
+    void print();
+    void zoomIn();
+    void zoomOut();
     void setDark();
     void setLight();
+
 };
 #endif // MAINWINDOW_H
