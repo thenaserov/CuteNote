@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->actionredo, SIGNAL(triggered()), ui->plainTextEdit, SLOT(redo()));
     connect(ui->actionOpen, SIGNAL(triggered()), ui->plainTextEdit, SLOT(open()));
     connect(ui->actionNew, SIGNAL(triggered()), ui->plainTextEdit, SLOT(newDoc()));
+    connect(ui->actionPrint_now, SIGNAL(triggered()), ui->plainTextEdit, SLOT(print()));
     shortcutPlus = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Plus), this);
     connect(shortcutPlus, &QShortcut::activated, this, &MainWindow::zoomIn);
     shortcutMinus = new QShortcut(QKeySequence(Qt::CTRL + Qt::Key_Minus), this);
@@ -40,7 +41,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 break;
             }
             case Qt::Key_W:{
-                this->~MainWindow();
+                QApplication::quit();
                 break;
             }
             case Qt::Key_P:{
@@ -55,7 +56,7 @@ void MainWindow::save()
      QMessageBox msgBox;
      msgBox.setText("The document has been modified.");
      msgBox.setInformativeText("Do you want to save your changes?");
-     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+     msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
      msgBox.setDefaultButton(QMessageBox::Save);
      int ret = msgBox.exec();
      switch (ret) {
@@ -79,11 +80,6 @@ void MainWindow::save()
                break;
            }
      }
-
-           case QMessageBox::Discard:{
-               // Don't Save was clicked
-               break;
-           }
            case QMessageBox::Cancel:{
                // Cancel was clicked
                break;
@@ -141,5 +137,13 @@ void MainWindow::newDoc()
 
 void MainWindow::print()
 {
-
+    QPrinter printer;
+    printer.setPrinterName("");
+    QPrintDialog pDialog(&printer, this);
+    if(pDialog.exec() == QDialog::Rejected)
+    {
+        QMessageBox::warning(this, "Warning", "Can not access the printer!");
+        return;
+    }
+    ui->plainTextEdit->print(&printer);
 }

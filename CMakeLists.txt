@@ -24,7 +24,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
-find_package(Qt5 COMPONENTS Widgets printsupport REQUIRED)
+find_package(Qt5 COMPONENTS Widgets PrintSupport REQUIRED)
 
 if(ANDROID)
   add_library(CuteNote SHARED
@@ -43,3 +43,4 @@ else()
 endif()
 
 target_link_libraries(CuteNote PRIVATE Qt5::Widgets)
+target_link_libraries(CuteNote PRIVATE Qt5::PrintSupport)
