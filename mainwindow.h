@@ -16,7 +16,14 @@ public:
     ~MainWindow();
     void keyPressEvent(QKeyEvent *event);
 
+
 private:
     Ui::MainWindow *ui;
+    bool Save(QKeyEvent *event);
+
+public slots:
+    void saveSlot();
+    void setDark();
+    void setLight();
 };
 #endif // MAINWINDOW_H

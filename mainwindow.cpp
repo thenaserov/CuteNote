@@ -11,6 +11,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("Cute Note - by TheNaserov");
+    this->setStyleSheet("background-color: white;");
+
+    connect(ui->actionSave, SIGNAL(triggered()), this, SLOT(saveSlot()));
+    connect(ui->actionDark, SIGNAL(triggered()), this, SLOT(setDark()));
+    connect(ui->actionLight, SIGNAL(triggered()), this, SLOT(setLight()));
 }
 
 MainWindow::~MainWindow()
@@ -19,6 +24,11 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    Save(event);
+}
+
+bool MainWindow::Save(QKeyEvent *event)
 {
     if (event->modifiers() == Qt::ControlModifier)
     {
@@ -69,4 +79,35 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
         }
     }
+}
+
+void MainWindow::saveSlot()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Text File"), "./", tr("Text Files (*.txt)"));
+    if (fileName != "")
+    {
+        QFile file(QFileInfo(fileName).absoluteFilePath());
+        if (file.open(QIODevice::WriteOnly))
+        {
+            QString text = ui->plainTextEdit->toPlainText();
+            QTextStream out(&file);
+            out << text;
+            file.close();
+        }
+        else
+        {
+            //TODO: Error message
+        }
+    }
+}
+
+void MainWindow::setDark()
+{
+    this->setStyleSheet("background-color: #1E0532;"
+                        "color : white;");
+}
+
+void MainWindow::setLight()
+{
+    this->setStyleSheet("background-color: white;");
 }
